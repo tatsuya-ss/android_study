@@ -1,6 +1,10 @@
 package com.example.android_study
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -18,6 +22,26 @@ class MainActivity : AppCompatActivity() {
 
         val recyclerView: RecyclerView = findViewById(R.id.recycler_view123)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        
+        recyclerView.adapter = MyAdapter(dataset)
     }
+}
+
+class MyAdapter(private val data: List<String>): RecyclerView.Adapter<MyAdapter.ViewHolder>() {
+
+    class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
+        val textView = view.findViewById<TextView>(R.id.textView)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_row,parent,false)
+        return ViewHolder(view)
+    }
+
+    override fun getItemCount(): Int = data.size
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.textView.text = data[position]
+    }
+
 }
