@@ -1,10 +1,12 @@
 package com.example.android_study
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -22,11 +24,11 @@ class MainActivity : AppCompatActivity() {
         //LinearLayoutManager・・縦方向または横方向のレイアウトにする。デフォルトは縦方向。
         recyclerView.layoutManager = LinearLayoutManager(this)
         //画面にデータを移すためにadapterにMyAdapterをセットする必要がある。
-        recyclerView.adapter = MyAdapter(dataset)
+        recyclerView.adapter = MyAdapter(this, dataset)
     }
 }
 
-class MyAdapter(private val dataset: List<String>) : RecyclerView.Adapter<MyAdapter.ViewHolder>(){
+class MyAdapter(private val context: Context, private val dataset: List<String>) : RecyclerView.Adapter<MyAdapter.ViewHolder>(){
 
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val view123 = view.findViewById<TextView>(R.id.textView)
@@ -43,6 +45,13 @@ class MyAdapter(private val dataset: List<String>) : RecyclerView.Adapter<MyAdap
 
     //ViewHolderに自動で上記で作成したViewHolderがセットされる。
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.view123.text = dataset[position]
+        val itemText = dataset[position]
+        holder.view123.text = itemText
+
+        //タップされたときの処理を追加する
+        holder.itemView.setOnClickListener{
+            //画面下部に出るやつ２秒くらい
+            Toast.makeText(context, "$itemText がクリックされました", Toast.LENGTH_SHORT).show()
+        }
     }
 }
