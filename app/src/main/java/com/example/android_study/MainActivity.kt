@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.google.gson.annotations.SerializedName
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -50,6 +53,7 @@ class PokemonListAdapter(private val pokemonList: MutableList<PokemonResponse>):
 
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val pokeName: TextView = view.findViewById(R.id.pokeText)
+        val pokeImage: ImageView = view.findViewById(R.id.pokeImage)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -63,11 +67,23 @@ class PokemonListAdapter(private val pokemonList: MutableList<PokemonResponse>):
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val pokemon = pokemonList[position]
         holder.pokeName.text = pokemon.name
-    }
 
+        // Glide を使って画像を ImageView にロード
+        Glide.with(holder.itemView.context)
+            .load(pokemon.sprites.frontDefault)
+            .into(holder.pokeImage)
+    }
 }
 
-data class PokemonResponse(val name: String)
+data class PokemonResponse(
+    val name: String,
+    val sprites: Sprites
+)
+
+data class Sprites(
+    @SerializedName("front_default")
+    val frontDefault: String?
+)
 
 interface PokeAPIService {
     @GET("pokemon/{id}")
@@ -81,7 +97,6 @@ object RetrofitInstance {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(PokeAPIService::class.java)
-
     }
 }
 

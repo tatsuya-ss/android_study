@@ -55,4 +55,8 @@ dependencies {
 
     // (オプション) OkHttp Logging Interceptor: ネットワーク通信のログ確認用
     implementation(libs.logging.interceptor)
+
+    // Glide
+    implementation ("com.github.bumptech.glide:glide:4.13.2")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.13.2")
 }
