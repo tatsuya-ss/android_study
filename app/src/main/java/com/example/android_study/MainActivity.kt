@@ -11,6 +11,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.GET
+import retrofit2.http.Path
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,14 +32,17 @@ class MainActivity : AppCompatActivity() {
         adapter = PokemonListAdapter(pokemonList)
         recyclerView.adapter = adapter
 
-//        lifecycleScope.launch {
-//            for (id in 1..10) {
-//                try {
-//                    val pokemon =
-//                }
-//            }
-//        }
-
+        lifecycleScope.launch {
+            for (id in 1..10) {
+                try {
+                    val pokemon = RetrofitInstance.api.getPokemon(id)
+                    pokemonList.add(pokemon)
+                    adapter.notifyItemInserted(pokemonList.size -1)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
     }
 }
 
@@ -61,3 +68,20 @@ class PokemonListAdapter(private val pokemonList: MutableList<PokemonResponse>):
 }
 
 data class PokemonResponse(val name: String)
+
+interface PokeAPIService {
+    @GET("pokemon/{id}")
+    suspend fun getPokemon(@Path("id") id: Int): PokemonResponse
+}
+
+object RetrofitInstance {
+    val api: PokeAPIService by lazy {
+        Retrofit.Builder()
+            .baseUrl("https://pokeapi.co/api/v2/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(PokeAPIService::class.java)
+
+    }
+}
+
