@@ -12,6 +12,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.android_study.databinding.ActivityMainBinding
+import com.example.android_study.databinding.PokemonRowBinding
 import com.google.gson.annotations.SerializedName
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
@@ -20,19 +22,24 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 class MainActivity : AppCompatActivity() {
-    
-    private lateinit var recyclerView: RecyclerView
+
+    private lateinit var binding: ActivityMainBinding
+//    private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PokeAPIListAdapter
     private val pokemonList = mutableListOf<PokemonResponse>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window,true)
-        setContentView(R.layout.activity_main)
-        recyclerView = findViewById(R.id.pokeRecyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+//        setContentView(R.layout.activity_main)
+//        recyclerView = findViewById(R.id.pokeRecyclerView)
+//        recyclerView.layoutManager = LinearLayoutManager(this)
+//        recyclerView.adapter = adapter
+        binding.pokeRecyclerView.layoutManager = LinearLayoutManager(this)
         adapter = PokeAPIListAdapter(pokemonList)
-        recyclerView.adapter = adapter
+        binding.pokeRecyclerView.adapter = adapter
 
         lifecycleScope.launch {
             for (id in 1..10) {
@@ -49,26 +56,33 @@ class MainActivity : AppCompatActivity() {
 }
 
 class PokeAPIListAdapter(private val pokemonList: MutableList<PokemonResponse>): RecyclerView.Adapter<PokeAPIListAdapter.ViewHolder>() {
-    class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        val pokeName: TextView = view.findViewById(R.id.textView)
-        val pokemonImage: ImageView = view.findViewById(R.id.imageView)
-    }
+//    class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
+//        val pokeName: TextView = view.findViewById(R.id.textView)
+//        val pokemonImage: ImageView = view.findViewById(R.id.imageView)
+//    }
+
+    class ViewHolder(val binding: PokemonRowBinding): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val pokeText = LayoutInflater.from(parent.context)
-            .inflate(R.layout.pokemon_row, parent, false)
-        return ViewHolder(pokeText)
+//        val pokeText = LayoutInflater.from(parent.context)
+//            .inflate(R.layout.pokemon_row, parent, false)
+//        return ViewHolder(pokeText)
+        val binding = PokemonRowBinding.inflate(
+            LayoutInflater.from(parent.context),parent,false
+        )
+        return ViewHolder(binding)
     }
 
     override fun getItemCount(): Int = pokemonList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val pokemon = pokemonList[position]
-        holder.pokeName.text = pokemon.name
+//        holder.pokeName.text = pokemon.name
+        holder.binding.textView.text = pokemon.name
 
         Glide.with(holder.itemView.context)
             .load(pokemon.sprites.frontDefault)
-            .into(holder.pokemonImage)
+            .into(holder.binding.imageView)
     }
 
 }
