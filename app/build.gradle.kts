@@ -33,6 +33,9 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -45,4 +48,18 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    // Retrofit: HTTP通信ライブラリ
+    implementation(libs.retrofit)
+    // Gson Converter: JSONからKotlinオブジェクトへの変換用
+    implementation(libs.converter.gson)
+    // Kotlin Coroutines: 非同期処理用
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
+
+    // (オプション) OkHttp Logging Interceptor: ネットワーク通信のログ確認用
+    implementation(libs.logging.interceptor)
+
+    // Glide
+    implementation ("com.github.bumptech.glide:glide:4.13.2")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.13.2")
 }
