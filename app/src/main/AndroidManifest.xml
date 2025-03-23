@@ -21,6 +21,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<!--        MainActivity と PokemonDetail をそれぞれ独立した  タグとして宣言することで、システムが正しく各アクティビティを認識し、Intent で起動できるようになります。-->
+        <activity
+            android:name=".PokemonDetail"
+            android:exported="true" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

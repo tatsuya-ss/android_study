@@ -1,5 +1,6 @@
 package com.example.android_study
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -31,9 +32,13 @@ class PokemonListFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.pokemonListRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = PokemonListAdapter(pokemonList) { pokemon ->
+            val intent = Intent(requireContext(),PokemonDetail::class.java)
+            intent.putExtra(PokemonDetail.EXTRA_POKEMON_NAME, pokemon.name)
+            intent.putExtra(PokemonDetail.EXTRA_POKEMON_IMAGE_URL, pokemon.sprites.frontDefault)
+            startActivity(intent)
             //requireContext。Fragment にアタッチされているときに、常に有効なコンテキストを返します。
-            Toast.makeText(requireContext(), " ${pokemon.name}がタップされました。", Toast.LENGTH_SHORT)
-                .show()
+//            Toast.makeText(requireContext(), " ${pokemon.name}がタップされました。", Toast.LENGTH_SHORT)
+//                .show()
         }
 
         binding.pokemonListRecyclerView.adapter = adapter
