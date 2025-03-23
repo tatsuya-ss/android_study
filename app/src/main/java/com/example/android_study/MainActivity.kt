@@ -33,7 +33,10 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-class PokemonListAdapter(private val pokeList: MutableList<PokemonResponse>): RecyclerView.Adapter<PokemonListAdapter.ViewHolder>() {
+class PokemonListAdapter(
+    private val pokeList: MutableList<PokemonResponse>,
+    private val onItemClick: (PokemonResponse) -> Unit
+): RecyclerView.Adapter<PokemonListAdapter.ViewHolder>() {
     class ViewHolder(val binding: PokeRowBinding): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -49,11 +52,13 @@ class PokemonListAdapter(private val pokeList: MutableList<PokemonResponse>): Re
         val pokemon = pokeList[position]
         holder.binding.pokeTextView.text = pokemon.name
         Glide.with(holder.itemView.context)
-            .load(pokemon.sprites.frontDefaults)
+            .load(pokemon.sprites.frontDefault)
             .into(holder.binding.pokeImageView)
+
+        holder.itemView.setOnClickListener {
+            onItemClick(pokemon)
+        }
     }
-
-
 }
 
 data class PokemonResponse(
@@ -63,7 +68,7 @@ data class PokemonResponse(
 
 data class Sprites(
     @SerializedName("front_default")
-    val frontDefaults: String?
+    val frontDefault: String?
 )
 
 interface PokeAPIService {
