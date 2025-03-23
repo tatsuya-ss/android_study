@@ -39,5 +39,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp" />
+    <TextView
+        android:id="@+id/detailPokeWeightTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Weight: "
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/detailPokeTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <!-- 高さ -->
+    <TextView
+        android:id="@+id/detailPokeHeightTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Height: "
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/detailPokeWeightTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <!-- タイプ（複数の場合はカンマ区切りなどで表示） -->
+    <TextView
+        android:id="@+id/detailPokeTypesTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Type: "
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/detailPokeHeightTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

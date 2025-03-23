@@ -32,9 +32,14 @@ class PokemonListFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.pokemonListRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = PokemonListAdapter(pokemonList) { pokemon ->
+            val typeString = pokemon.types.joinToString(" + "){ it.type.name }
             val intent = Intent(requireContext(),PokemonDetail::class.java)
             intent.putExtra(PokemonDetail.EXTRA_POKEMON_NAME, pokemon.name)
             intent.putExtra(PokemonDetail.EXTRA_POKEMON_IMAGE_URL, pokemon.sprites.frontDefault)
+            intent.putExtra(PokemonDetail.EXTRA_POKEMON_HEIGHT, pokemon.height)
+            intent.putExtra(PokemonDetail.EXTRA_POKEMON_WEIGHT, pokemon.weight)
+            intent.putExtra(PokemonDetail.EXTRA_POKEMON_TYPES, typeString)
+
             startActivity(intent)
             //requireContext。Fragment にアタッチされているときに、常に有効なコンテキストを返します。
 //            Toast.makeText(requireContext(), " ${pokemon.name}がタップされました。", Toast.LENGTH_SHORT)

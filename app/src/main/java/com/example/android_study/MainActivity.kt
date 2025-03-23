@@ -63,8 +63,22 @@ class PokemonListAdapter(
 
 data class PokemonResponse(
     val name: String,
+    val weight: Int,       // 体重
+    val height: Int,       // 高さ
+    val types: List<TypeSlot>,
     val sprites: Sprites
 )
+
+data class TypeSlot(
+    val slot: Int,         // タイプの順番
+    val type: PokemonType  // タイプ情報
+)
+
+data class PokemonType(
+    val name: String,      // 例："grass", "poison" など
+    val url: String
+)
+
 
 data class Sprites(
     @SerializedName("front_default")
