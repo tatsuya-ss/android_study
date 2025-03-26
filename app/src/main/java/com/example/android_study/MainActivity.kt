@@ -1,20 +1,44 @@
 package com.example.android_study
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+
+        val fruits = arrayOf("apple","banana","orange")
+        val adapter = FruitAdapter(fruits)
+        val recyclerView: RecyclerView = findViewById(R.id.fruitsRecyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = adapter
     }
+}
+
+class FruitAdapter(private val fruitsData: Array<String>): RecyclerView.Adapter<FruitAdapter.ViewHolder>() {
+
+    class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
+        val textView: TextView = view.findViewById(R.id.textView)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val textLayout = LayoutInflater.from(parent.context)
+            .inflate(R.layout.fruit_row,parent,false)
+        return ViewHolder(textLayout)
+    }
+
+    override fun getItemCount(): Int = fruitsData.size
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val fruit = fruitsData[position]
+        holder.textView.text = fruit
+    }
+
 }
