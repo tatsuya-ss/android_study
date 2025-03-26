@@ -13,7 +13,7 @@ class FruitFragment: Fragment() {
     private lateinit var fruitRecyclerView: RecyclerView
     private lateinit var adapter: FruitAdapter
 
-    private val frutisData = arrayOf("apple","banana","orange")
+    private val fruitData = arrayOf("apple","banana","orange")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,7 +28,7 @@ class FruitFragment: Fragment() {
         fruitRecyclerView = view.findViewById(R.id.fruitRecyclerView)
         fruitRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        adapter = FruitAdapter(frutisData)
+        adapter = FruitAdapter(fruitData)
         fruitRecyclerView.adapter = adapter
 
     }
