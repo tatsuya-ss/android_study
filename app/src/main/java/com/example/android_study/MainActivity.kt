@@ -27,7 +27,6 @@ class MainActivity : AppCompatActivity() {
 class FruitAdapter(private val fruits: Array<String>): RecyclerView.Adapter<FruitAdapter.ViewHolder>(){
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val fruitNameView: TextView = view.findViewById(R.id.fruitTextView)
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
